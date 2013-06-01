@@ -1,0 +1,9 @@
+{
+  "name": "reveal.js",
+  "version": "0.0.0",
+  "commit": "d2cf21028eac378bdefe145fefa6d49841ecea1c",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hakimel/reveal.js/"
+  }
+}
