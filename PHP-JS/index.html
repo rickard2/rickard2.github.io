@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP och JavaScript i nutid och framtiden</title>
+    <link rel="stylesheet" href="components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="components/reveal.js/css/theme/simple.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>PHP och JavaScript</h2>
+        </section>
+        <section>
+            <section>
+                <h2>PHP 5.3</h2>
+
+                <h3>Namespaces</h3>
+
+                <figure>
+                    <pre><code>
+                        namespace Acme\Foo;
+
+                        class Calculator {
+                            public function ...
+                        }
+                    </code></pre>
+                    <figcaption>src/Acme/Foo/Calculator.php</figcaption>
+                </figure>
+
+                <figure>
+                    <pre>
+                        namespace Acme\Bar;
+
+                        class Calculator {
+                            public function ...
+                        }
+                    </pre>
+                    <figcaption>src/Acme/Bar/Calculator.php</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>PHP 5.3</h2>
+
+                <h3>Closures</h3>
+
+                <pre><code>
+                    $values = array(1, 2, 3, 4, 5, 6, 7, 8);
+
+                    $even = array_filter($values, function($value) {
+                        return $value % 2 == 0;
+                    });
+                </code></pre>
+
+                <pre><code>
+                    $values     = array(1, 2, 3, 4, 5, 6, 7, 8);
+                    $calculator = new Calculator();
+
+                    $double = array_map(function($value) use ($calculator) {
+                        return $calculator->multiply($value, 2);
+                    });
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.3</h2>
+
+                <h3>Sorthand ternary operator</h3>
+
+                <pre><code>
+                    ??
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.3</h2>
+
+                <h3>DateInterval</h3>
+
+                <pre><code>
+                    $di = new DateInterval('P7D');
+                    $date = new DateTime();
+                    $data->add($di);
+                </code></pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>PHP 5.4</h2>
+                <h3>Traits</h3>
+
+                <pre><code>
+                    trait isValidTrait {
+                        function isValid($when = null) {
+                            if (!$when) {
+                                $when = new DateTime();
+                            }
+
+                            $start = $this->getStart();
+                            $end   = $this->getEnd();
+
+                            if ($when < $start) {
+                                return false;
+                            }
+
+                            if ($when > $end) {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    }
+
+                    class Contract {
+                        use isValidTrait;
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.4</h2>
+                <h3>Array shorthand</h3>
+
+                <pre><code>
+                    $a = [1, 2, 3, 4];
+                    $a = ['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4];
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.4</h2>
+                <h3>Function array dereferencing</h3>
+
+                <pre><code>
+                    class Repository {
+
+                        /**
+                         * @return array
+                         */
+                        function getPosts() {
+                            // ...
+                        }
+
+                        function firstPost() {
+                            return $this->getPosts()[0];
+                        }
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.4</h2>
+                <h3>Class member access on instantiation</h3>
+
+                <pre><code>
+                    function unixtime() {
+                        return (new DateTime())->format('u');
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.4</h2>
+                <h3>CLI Web Server</h3>
+
+                <pre><code>
+                    TBA
+                </code></pre>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h2>PHP 5.5</h2>
+                <h3>Generators</h3>
+
+                <pre><code>
+
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.5</h2>
+                <h3>Try/catch/finally</h3>
+            </section>
+            <section>
+                <h2>PHP 5.5</h2>
+                <h3>foreach list()</h3>
+
+                <pre><code>
+                    // returns [ [ 'option', 'value' ], ... ]
+                    $options = $settings->all();
+
+                    foreach ($options as list($key, $value)) {
+                        // ...
+                    }
+                </code></pre>
+            </section>
+            <section>
+                <h2>PHP 5.5</h2>
+                <h3>Password hashing API</h3>
+
+                <pre><code>
+                    password_hash()
+                </code></pre>
+            </section>
+        </section>
+    </div>
+    <footer>
+        <section>
+            PHP och JavaScript
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/PHP-JS/
+        </section>
+    </footer>
+</div>
+<script src="components/reveal.js/lib/js/head.min.js"></script>
+<script src="components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        { src: 'components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        } },
+    ]
+});</script>
+</body>
+</html>
