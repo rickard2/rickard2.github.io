@@ -69,7 +69,11 @@
                 <h3>Sorthand ternary operator</h3>
 
                 <pre><code>
-                    ??
+                    function doStuff($value) {
+                        $value = $value ?: 'default';
+                        
+                        // ... 
+                    }
                 </code></pre>
             </section>
             <section>
@@ -80,7 +84,7 @@
                 <pre><code>
                     $di = new DateInterval('P7D');
                     $date = new DateTime();
-                    $data->add($di);
+                    $date->add($di);
                 </code></pre>
             </section>
         </section>
@@ -90,29 +94,29 @@
                 <h3>Traits</h3>
 
                 <pre><code>
-                    trait isValidTrait {
-                        function isValid($when = null) {
-                            if (!$when) {
-                                $when = new DateTime();
-                            }
-
-                            $start = $this->getStart();
-                            $end   = $this->getEnd();
-
-                            if ($when < $start) {
-                                return false;
-                            }
-
-                            if ($when > $end) {
-                                return false;
-                            }
-
-                            return true;
+                    trait alphaTrait {
+                        function alpha() {
+                            return 'alpha'
+                        }
+                    }
+                    
+                    trait betaTrait {
+                        function beta() {
+                            return 'beta';
                         }
                     }
 
-                    class Contract {
-                        use isValidTrait;
+                    class First {
+                        use alphaTrait;
+                    }
+                    
+                    class Second {
+                        use betaTrait;
+                    }
+                    
+                    class Third {
+                        use alphaTrait;
+                        use betaTrait;
                     }
                 </code></pre>
             </section>
@@ -160,7 +164,7 @@
                 <h3>CLI Web Server</h3>
 
                 <pre><code>
-                    TBA
+                    $ php -S localhost:8000
                 </code></pre>
             </section>
         </section>
@@ -168,14 +172,36 @@
             <section>
                 <h2>PHP 5.5</h2>
                 <h3>Generators</h3>
-
+                
                 <pre><code>
-
+                function even($max = 10) {
+                    $value = 0;
+                    
+                    while ($value <= $max) {
+                        yield $value;
+                        $value += 2;
+                    }
+                }
+                
+                $generator = even(8);
+                
+                foreach ($generator as $number) {
+                    // 2, 4, 6, 8
+                }
                 </code></pre>
             </section>
             <section>
                 <h2>PHP 5.5</h2>
                 <h3>Try/catch/finally</h3>
+                <pre><code>
+                    try {
+                        risky();
+                    } catch (Exception $e) {
+                        log('error', $e->getMessage());
+                    } finally {
+                        always();
+                    }                    
+                </code></pre>
             </section>
             <section>
                 <h2>PHP 5.5</h2>
@@ -195,7 +221,7 @@
                 <h3>Password hashing API</h3>
 
                 <pre><code>
-                    password_hash()
+                    password_hash('monkey', PASSWORD_DEFAULT);
                 </code></pre>
             </section>
         </section>
