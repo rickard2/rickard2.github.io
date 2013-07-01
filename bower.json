@@ -1,0 +1,12 @@
+{
+    "name": "rickard2.github.io",
+    "version": "0.0.0",
+    "dependencies": {
+        "reveal.js": "*"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "components"
+    ]
+}
