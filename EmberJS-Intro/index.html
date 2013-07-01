@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>Ember JS Intro</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/simple.css"/>
+    <style type="text/css">
+        ul.unstyled {
+            list-style: none;
+            margin: 1em 0;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Ember JS intro</h2>
+            
+            <p>Kodar-lan, 2013-07-13</p>
+            
+            <p>Intro + kodning</p>
+        </section>
+        <section>
+            <h2>Rickard Andersson</h2>
+
+            <p>Montania System AB</p>
+
+            <p class="fragment">Webbutveckling, Drift, IT-säkerhet, Linux</p>
+
+            <p class="fragment">PHP, JS, CSS/SCSS.</p>
+
+            <p class="fragment">Symfony, Ember JS</p>
+        </section>
+        <section>
+            <h2>Ember JS</h2>
+            
+            <ul>
+                <li>Model</li>
+                <li>View (handlebars)</li>
+                <li>Controller</li>
+                <li>Route / Router</li>
+                <li>Ember Data (external)</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Convention over configuration</h2>
+            
+            ??
+        </section>
+        <section>
+            <h2>Router</h2>
+            
+            <p>Mappar URL mot en template</p>
+            <pre class="fragment"><code>
+App.Router.map(function() {
+    this.route('about');
+    this.route('contact');
+    this.route('sitemap');
+});                
+            </code></pre>
+        </section>
+        <section>
+            <h2>Route</h2>
+            
+            <p>Sätter upp data för kontrollern</p>
+            <pre class="fragment"><code>
+App.AboutRoute = Ember.Route.extend({
+    model:function() {
+        return ...; 
+    }
+});
+            </code></pre>
+        </section>
+        <section>
+            <h2>Template</h2>
+            
+            <p>Defierar UI</p>
+            <pre class="fragment"><code>
+&lt;script type="text/x-handlebars" id="about"&gt;
+    &lt;h1&gt;Om kodar lan&lt;/h1&gt;
+    &lt;p&gt;Kodar-lan är det bästa som finns.&lt;/p&gt;
+    &lt;p&gt;Tidigare kodar lan:&lt;/p&gt;
+    &lt;ul&gt;
+        {{#each lan in content}}
+            Den {{lan.date}}, på {{lan.location}}
+        {{/each}}}
+    &lt;/ul&gt;
+    
+    {{#if nextLan}}
+        &lt;p&gt;Nästa kodar lan är planerat till {{lextLan.date}}, på {{nextLan.location}}
+    {{else}}
+        &lt;p&gt;Vi har inget nytt datum planerat för nästa lan.&lt;/p&gt;
+    {{/if}}
+&lt;/script&gt;
+            </code></pre>
+        </section>
+        <section>
+            <h2>Model</h2>
+            <p>Definerar hur din data ser ut</p>
+            <ul>
+                <li>Ember.Object</li>
+                <li>DS.Model (Ember Data)</li>
+            </ul>
+        
+            <pre class="fragment"><code>
+var App.BlogPost = Ember.Object.extend({...});
+var post = App.BlogPost.create({title:'...', ...});
+            </code></pre>
+        
+            <pre class="fragment"><code>
+var App.BlogPost = DS.Model.extend({
+    title: DS.attr('string'),
+    body: DS.attr('string'),
+    created: DS.attr('date')
+});
+
+var post = App.BlogPost.createRecord({title:'...', ...});
+            </code></pre>
+        </section>
+        <section>
+            <h2>Dags att koda!</h2>
+        </section>
+    </div>
+</div>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true
+});</script>
+</body>
+</html>
