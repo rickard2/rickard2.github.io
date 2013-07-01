@@ -5,12 +5,8 @@
     <title>Ember JS Intro</title>
     <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
     <link rel="stylesheet" href="../components/reveal.js/css/theme/simple.css"/>
-    <style type="text/css">
-        ul.unstyled {
-            list-style: none;
-            margin: 1em 0;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
 </head>
 <body>
 <div class="reveal">
@@ -53,7 +49,7 @@
             <h2>Router</h2>
             
             <p>Mappar URL mot en template</p>
-            <pre class="fragment"><code>
+            <pre class="fragment"><code data-trim>
 App.Router.map(function() {
     this.route('about');
     this.route('contact');
@@ -65,7 +61,7 @@ App.Router.map(function() {
             <h2>Route</h2>
             
             <p>Sätter upp data för kontrollern</p>
-            <pre class="fragment"><code>
+            <pre class="fragment"><code data-trim>
 App.AboutRoute = Ember.Route.extend({
     model:function() {
         return ...; 
@@ -77,23 +73,23 @@ App.AboutRoute = Ember.Route.extend({
             <h2>Template</h2>
             
             <p>Defierar UI</p>
-            <pre class="fragment"><code>
-&lt;script type="text/x-handlebars" id="about"&gt;
-    &lt;h1&gt;Om kodar lan&lt;/h1&gt;
-    &lt;p&gt;Kodar-lan är det bästa som finns.&lt;/p&gt;
-    &lt;p&gt;Tidigare kodar lan:&lt;/p&gt;
-    &lt;ul&gt;
+            <pre class="fragment"><code data-trim>
+<script type="text/x-handlebars" id="about">
+    <h1>Om kodar lan</h1>
+    <p>Kodar-lan är det bästa som finns.</p>
+    <p>Tidigare kodar lan:</p>
+    <ul>
         {{#each lan in content}}
-            &lt;li&gt;Den {{lan.date}}, på {{lan.location}}&lt;/li&gt;
+            <li>Den {{lan.date}}, på {{lan.location}}</li>
         {{/each}}}
-    &lt;/ul&gt;
+    </ul>
     
     {{#if nextLan}}
-        &lt;p&gt;Nästa kodar lan är planerat till {{lextLan.date}}, på {{nextLan.location}}
+        <p>Nästa kodar lan är planerat till {{lextLan.date}}, på {{nextLan.location}}
     {{else}}
-        &lt;p&gt;Vi har inget nytt datum planerat för nästa lan.&lt;/p&gt;
+        <p>Vi har inget nytt datum planerat för nästa lan.</p>
     {{/if}}
-&lt;/script&gt;
+</script>
             </code></pre>
         </section>
         <section>
@@ -104,12 +100,12 @@ App.AboutRoute = Ember.Route.extend({
                 <li>DS.Model (Ember Data)</li>
             </ul>
         
-            <pre class="fragment"><code>
+            <pre class="fragment"><code data-trim>
 var App.BlogPost = Ember.Object.extend({...});
 var post = App.BlogPost.create({title:'...', ...});
             </code></pre>
         
-            <pre class="fragment"><code>
+            <pre class="fragment"><code data-trim>
 var App.BlogPost = DS.Model.extend({
     title: DS.attr('string'),
     body: DS.attr('string'),
@@ -123,12 +119,29 @@ var post = App.BlogPost.createRecord({title:'...', ...});
              <h2>Dags att koda!</h2>
         </section>
     </div>
+    <footer>
+        <section>
+            Ember JS intro
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/EmberJS-Intro/
+        </section>
+    </footer>
 </div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
 <script src="../components/reveal.js/js/reveal.js"></script>
 <script>Reveal.initialize({
     transition: 'linear',
     controls: false,
-    history: true
+    history: true,
+    dependencies: [
+        { src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        } }
+    ]
 });</script>
 </body>
 </html>
