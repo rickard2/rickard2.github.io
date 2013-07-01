@@ -95,25 +95,35 @@ App.AboutRoute = Ember.Route.extend({
         <section>
             <h2>Model</h2>
             <p>Definerar hur din data ser ut</p>
-            <ul>
-                <li>Ember.Object</li>
-                <li>DS.Model (Ember Data)</li>
-            </ul>
-        
-            <pre class="fragment"><code data-trim>
-var App.BlogPost = Ember.Object.extend({...});
+
+            <div class="fragment">
+                <hr>
+                <strong>Ember.Object</strong>
+                <pre><code data-trim>
+var App.BlogPost = Ember.Object.extend({
+    summary:function() { ... }
+});
+
 var post = App.BlogPost.create({title:'...', ...});
-            </code></pre>
-        
-            <pre class="fragment"><code data-trim>
+                </code></pre>
+            </div>
+
+            <div class="fragment">
+                <hr>
+                <strong>DS.Model (Ember Data)</strong>
+
+                <pre><code data-trim>
 var App.BlogPost = DS.Model.extend({
     title: DS.attr('string'),
     body: DS.attr('string'),
-    created: DS.attr('date')
+    created: DS.attr('date'),
+    summary: function() { ... }
 });
 
 var post = App.BlogPost.createRecord({title:'...', ...});
-            </code></pre>
+               </code></pre>
+            </div>
+
         </section>
         <section>
              <h2>Dags att koda!</h2>
