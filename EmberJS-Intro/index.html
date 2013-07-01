@@ -84,7 +84,7 @@ App.AboutRoute = Ember.Route.extend({
     &lt;p&gt;Tidigare kodar lan:&lt;/p&gt;
     &lt;ul&gt;
         {{#each lan in content}}
-            Den {{lan.date}}, på {{lan.location}}
+            &lt;li&gt;Den {{lan.date}}, på {{lan.location}}&lt;/li&gt;
         {{/each}}}
     &lt;/ul&gt;
     
@@ -120,7 +120,7 @@ var post = App.BlogPost.createRecord({title:'...', ...});
             </code></pre>
         </section>
         <section>
-            <h2>Dags att koda!</h2>
+             <h2>Dags att koda!</h2>
         </section>
     </div>
 </div>
