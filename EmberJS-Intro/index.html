@@ -13,9 +13,9 @@
     <div class="slides">
         <section>
             <h2>Ember JS intro</h2>
-            
+
             <p>Kodar-lan, 2013-07-13</p>
-            
+
             <p>Intro + kodning</p>
         </section>
         <section>
@@ -31,7 +31,7 @@
         </section>
         <section>
             <h2>Ember JS</h2>
-            
+
             <ul>
                 <li>Model</li>
                 <li>View (handlebars)</li>
@@ -42,36 +42,36 @@
         </section>
         <section>
             <h2>Convention over configuration</h2>
-            
+
             ??
         </section>
         <section>
             <h2>Router</h2>
-            
+
             <p>Mappar URL mot en template</p>
             <pre class="fragment"><code data-trim>
 App.Router.map(function() {
     this.route('about');
     this.route('contact');
     this.route('sitemap');
-});                
+});
             </code></pre>
         </section>
         <section>
             <h2>Route</h2>
-            
+
             <p>Sätter upp data för kontrollern</p>
             <pre class="fragment"><code data-trim>
 App.AboutRoute = Ember.Route.extend({
     model:function() {
-        return ...; 
+        return ...;
     }
 });
             </code></pre>
         </section>
         <section>
             <h2>Template</h2>
-            
+
             <p>Defierar UI</p>
             <pre class="fragment"><code data-trim>
 <script type="text/x-handlebars" id="about">
@@ -83,7 +83,7 @@ App.AboutRoute = Ember.Route.extend({
             <li>Den {{lan.date}}, på {{lan.location}}</li>
         {{/each}}}
     </ul>
-    
+
     {{#if nextLan}}
         <p>Nästa kodar lan är planerat till {{lextLan.date}}, på {{nextLan.location}}
     {{else}}
@@ -126,7 +126,15 @@ var post = App.BlogPost.createRecord({title:'...', ...});
 
         </section>
         <section>
-             <h2>Dags att koda!</h2>
+            <h2>Dags att koda!</h2>
+            <div class="fragment">
+
+                <a href="https://github.com/rickard2/EmberJS-Intro/">https://github.com/rickard2/EmberJS-Intro/</a>
+
+                <pre><code>
+$ git clone https://github.com/rickard2/EmberJS-Intro.git
+                </code></pre>
+            </div>
         </section>
     </div>
     <footer>
