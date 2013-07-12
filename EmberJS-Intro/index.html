@@ -41,11 +41,6 @@
             </ul>
         </section>
         <section>
-            <h2>Convention over configuration</h2>
-
-            ??
-        </section>
-        <section>
             <h2>Router</h2>
 
             <p>Mappar URL mot en template</p>
@@ -53,9 +48,33 @@
 App.Router.map(function() {
     this.route('about');
     this.route('contact');
-    this.route('sitemap');
+    this.resource('posts', function() {
+        this.route('detail', { path: '/:post_id' });
+    });
 });
             </code></pre>
+        </section>
+        <section>
+            <h2>Convention over configuration</h2>
+
+            <pre class="fragment"><code data-trim>
+// this.route('about');
+App.AboutController = ...;
+App.AboutRoute = ...;
+App.AboutView = ...;
+            </code></pre>
+
+            <pre class="fragment"><code data-trim>
+// this.resource('posts', function() {
+//   this.route('detail', { path: '/:post_id' });
+// });
+App.PostsController = ...;
+App.PostsIndexController = ...;
+App.PostsDetailController = ...;
+App.PostsRoute = ...;
+// ...
+                </code></pre>
+
         </section>
         <section>
             <h2>Route</h2>
@@ -76,12 +95,11 @@ App.AboutRoute = Ember.Route.extend({
             <pre class="fragment"><code data-trim>
 <script type="text/x-handlebars" id="about">
     <h1>Om kodar lan</h1>
-    <p>Kodar-lan är det bästa som finns.</p>
-    <p>Tidigare kodar lan:</p>
+    <p>Kodar-lan är det bästa som finns, tidigare kodar-lan:</p>
     <ul>
         {{#each lan in content}}
             <li>Den {{lan.date}}, på {{lan.location}}</li>
-        {{/each}}}
+        {{/each}}
     </ul>
 
     {{#if nextLan}}
@@ -89,7 +107,20 @@ App.AboutRoute = Ember.Route.extend({
     {{else}}
         <p>Vi har inget nytt datum planerat för nästa lan.</p>
     {{/if}}
+
+    <button {{action contact}}>Kontakta oss</button>
 </script>
+            </code></pre>
+        </section>
+        <section>
+            <h2>Controller</h2>
+            <p>Hanterar events, proxy mellan template och model</p>
+            <pre class="fragment"><code data-trim>
+App.AboutController = Ember.ObjectController.extend({
+    contact: function() {
+        // ...
+    }
+});
             </code></pre>
         </section>
         <section>
