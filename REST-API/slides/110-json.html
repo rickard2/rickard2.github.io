@@ -1,0 +1,82 @@
+
+<section>
+    <section>
+        <h2>JSON Format</h2>
+
+<pre><code>{
+    "user":{
+        "id":1,
+        "username":"rickard",
+        "name":"Rickard Andersson",
+        "cell":"073-5083445",
+        "email":"rickard@montania.se",
+        "locked":false,
+        "loginCount":15,
+        "roles":[1],
+        "recipients":[],
+        "created":"2014-01-23T14:13:12+0100",
+        "updated":"2014-01-23T14:14:25+0100"
+    }
+}</code></pre>
+
+    </section>
+    <section>
+        <h2>JSON Format</h2>
+<pre><code>{
+    "user":{
+        "id":1,
+        "username":"rickard",
+        "name":"Rickard Andersson",
+        "cell":"073-5083445",
+        "email":"rickard@montania.se",
+        "locked":false,
+        "loginCount":15,
+        "roles":[1],
+        "recipients":[],
+        "created":"2014-01-23T14:13:12+0100",
+        "updated":"2014-01-23T14:14:25+0100"
+    },
+    "roles": [
+        {
+            "id": 1,
+            "created": "-0001-11-30T00:00:00+0100",
+            "name": "Administratör",
+            "role": "ROLE_ADMIN"
+        }
+    ]
+}</code></pre>
+    </section>
+    <section>
+        <h2>JSON API</h2>
+        <small>(ID style)</small>
+
+<pre><code>{
+    "posts": [{
+        "id": "1",
+        "title": "Rails is Omakase",
+        "links": {
+            "author": "9",
+            "comments": [ "5", "12", "17", "20" ]
+        }
+    }]
+}</code></pre>
+        <a href="http://jsonapi.org/">http://jsonapi.org/</a>
+    </section>
+    <section>
+        <h2>JSON API</h2>
+        <small>(URL style)</small>
+
+<pre><code>{
+    "posts": [{
+        "id": "1",
+        "title": "Rails is Omakase",
+        "links": {
+            "author": "http://example.com/people/9",
+            "comments": "http://example.com/comments/5,12,17,20"
+        }
+    }]
+}</code></pre>
+        <a href="http://jsonapi.org/">http://jsonapi.org/</a>
+    </section>
+
+</section>

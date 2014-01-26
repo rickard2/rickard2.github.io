@@ -1,0 +1,41 @@
+<section>
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>HTTP statuskoder</small></p>
+
+        <ul class="unstyled">
+            <li><code>400 Bad Request</code></li>
+            <li><code>401 Unauthorized</code></li>
+            <li><code>403 Forbidden</code></li>
+            <li><code>404 Not Found</code></li>
+            <li><code>409 Conflict</code></li>
+            <li><code>422 Unprocessable Entity</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>Status + meddelande</small></p>
+<pre><code>{
+    "status": 409,
+    "message": "Conflict"
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>Valideringsfel</small></p>
+
+<pre><code>{
+    "status": 422,
+    "message": "Unprocessable Entity",
+    "errors": {
+        "username": [
+            "Detta fält får inte vara tomt"
+        ],
+        "email": [
+            "Detta fält får inte vara tomt"
+        ]
+    }
+}</code></pre>
+    </section>
+</section>

@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>REST API:er best practices</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/simple.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+        table {
+            margin: auto;
+        }
+
+        .reveal pre code {
+            max-height: 550px;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+<section>
+    <h2>REST API:er best practices</h2>
+
+    <p>Webb helt enkelt #6, 2014-01-30</p>
+</section>
+
+<section>
+    <h2>Rickard Andersson</h2>
+
+    <p>Montania System AB</p>
+
+    <p class="fragment">Webbutveckling, Drift, IT-säkerhet, Linux</p>
+
+    <p class="fragment">PHP, JS, CSS/SCSS.</p>
+
+    <p class="fragment">Symfony, Ember JS</p>
+</section>
+
+<section>
+    <h2>Lite bakgrund</h2>
+
+    <p>Vårt use case: SPA</p>
+    <p class="fragment">ember-data. Active Model Serializer</p>
+
+    <small class="fragment"><em><a href="https://github.com/rails-api/active_model_serializers">https://github.com/rails-api/active_model_serializers</a></em></small>
+</section>
+
+<section>
+    <h2>HTTP</h2>
+
+    <img src="img/http1.png">
+
+<pre class="fragment">GET / HTTP/1.1
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8,sv;q=0.6
+Connection:keep-alive
+Host:www.montania.se</pre>
+
+<pre class="fragment">HTTP/1.1 200 OK
+Connection:Keep-Alive
+Content-Encoding:gzip
+Content-Type:text/html; charset=UTF-8
+Date:Mon, 20 Jan 2014 19:57:09 GMT
+Keep-Alive:timeout=5, max=100
+Server:Apache/2.2.24 (Unix) mod_fastcgi/2.4.2 mod_ssl/2.2.24 OpenSSL/0.9.8y
+
+&lt;!doctype html&gt;</pre>
+</section>
+<section>
+    <h2>REST basics</h2>
+    <p>Använd HTTP till fullo</p>
+
+    <table class="fragment">
+        <tr>
+            <td>Resurs</td>
+            <td>&rarr;</td>
+            <td>URL</td>
+        </tr>
+        <tr>
+            <td>Action</td>
+            <td>&rarr;</td>
+            <td>HTTP Metod</td>
+        </tr>
+        <tr>
+            <td>Resultat</td>
+            <td>&rarr;</td>
+            <td>HTTP status</td>
+        </tr>
+        <tr>
+            <td>Filter</td>
+            <td>&rarr;</td>
+            <td>Query parameter</td>
+        </tr>
+        <tr>
+            <td>Format</td>
+            <td>&rarr;</td>
+            <td>Accept header (alt. filtyp)</td>
+        </tr>
+        <tr>
+            <td>Version</td>
+            <td>&rarr;</td>
+            <td>URL (alt. media type)</td>
+        </tr>
+    </table>
+    <!--
+    <pre class="fragment">GET /api/v1/users?name=john
+Accept: application/json</pre>
+    <pre class="fragment">GET /api/v1/users.json?name=john</pre> -->
+</section>
+
+<section>
+    <h2>Resurser</h2>
+    <small>(URL)</small>
+
+    <table>
+        <tr>
+            <td>Alla användare</td>
+            <td>&rarr;</td>
+            <td><code>/api/users</code></td>
+        </tr>
+        <tr>
+            <td>Enskild användare</td>
+            <td>&rarr;</td>
+            <td><code>/api/users/1</code></td>
+        </tr>
+        <tr class="fragment">
+            <td>Relationer</td>
+            <td>&rarr;</td>
+            <td><code>/api/users/1/comments</code></td>
+        </tr>
+        <tr class="fragment">
+            <td>Relationer</td>
+            <td>&rarr;</td>
+            <td><code>/api/comments?ids=1,2,3</code></td>
+        </tr>
+    </table>
+
+</section>
+
+<section>
+    <h2>Actions</h2>
+    <small>(HTTP metoder)</small>
+
+    <table class="wide">
+        <tr>
+            <td><code>GET /api/users</code></td>
+            <td>&rarr;</td>
+            <td>Hämtar alla användare</td>
+        </tr>
+        <tr>
+            <td><code>GET /api/users/1</code></td>
+            <td>&rarr;</td>
+            <td>Hämtar användare med ID 1</td>
+        </tr>
+        <tr>
+            <td><code>POST /api/users</code></td>
+            <td>&rarr;</td>
+            <td>Skapa ny användare</td>
+        </tr>
+        <tr>
+            <td><code>PUT /api/users/1</code></td>
+            <td>&rarr;</td>
+            <td>Uppdatera användare 1</td>
+        </tr>
+        <tr>
+            <td><code>DELETE /api/users/1</code></td>
+            <td>&rarr;</td>
+            <td>Radera användare 1</td>
+        </tr>
+        <tr class="fragment">
+            <td><code>PUT /api/users</code></td>
+            <td>&rarr;</td>
+            <td>Ersätt alla användare</td>
+        </tr>
+        <tr class="fragment">
+            <td><code>DELETE /api/users</code></td>
+            <td>&rarr;</td>
+            <td>Radera alla användare</td>
+        </tr>
+        <tr class="fragment">
+            <td><code>POST /api/users/1</code></td>
+            <td>&rarr;</td>
+            <td>Delvis uppdatering av användare 1</td>
+        </tr>
+        <tr class="fragment">
+            <td><code>PATCH /api/users/1</code></td>
+            <td>&rarr;</td>
+            <td>Delvis uppdatering av användare 1</td>
+        </tr>
+    </table>
+    <div class="fragment">
+        <hr/>
+        <code>GET /api/users/1?_method=delete</code>
+    </div>
+</section>
+
+<section>
+    <h2>Resultat</h2>
+    <small>(HTTP statuskoder)</small>
+    <table>
+        <tr>
+            <td>GET</td>
+            <td>&rarr;</td>
+            <td>200, 404</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>&rarr;</td>
+            <td>201, 400, 422</td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td>&rarr;</td>
+            <td>200, 400, 422, 409</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td>&rarr;</td>
+            <td>204</td>
+        </tr>
+    </table>
+    <div class="fragment">
+        <hr/>
+        POST/PUT returnerar <code>Location</code> header
+    </div>
+</section>
+
+<section>
+    <h2>Filter</h2>
+    <small>(Query parameter)</small>
+
+    <p><code>/api/users?name=john</code></p>
+    <p><code class="fragment">/api/users?offset=100&limit=100</code></p>
+
+</section>
+
+<section>
+    <section>
+        <h2>Format</h2>
+        <small>(accept header)</small>
+
+        <table>
+            <tr>
+                <td>&rarr;</td>
+                <td><code>Accept: application/json,text/plain</code></td>
+            </tr>
+            <tr>
+                <td>&larr;</td>
+                <td><code>Content-Type: application/json</code></td>
+            </tr>
+        </table>
+    </section>
+    <section>
+        <h2>Format</h2>
+        <small>(egen mime type)</small>
+
+        <table>
+            <tr>
+                <td>&rarr;</td>
+                <td><code>Accept: application/vnd.user+json</code></td>
+            </tr>
+            <tr>
+                <td>&larr;</td>
+                <td><code>Content-Type: application/vnd.user+json</code></td>
+            </tr>
+        </table>
+    </section>
+    <section>
+        <h2>Format</h2>
+        <small>(filtyp)</small>
+
+        <table>
+            <tr>
+                <td>&rarr;</td>
+                <td><code>GET /api/users.json</code></td>
+            </tr>
+            <tr>
+                <td>&larr;</td>
+                <td><code>Content-Type: application/json</code></td>
+            </tr>
+        </table>
+    </section>
+</section>
+
+<section>
+    <h2>Version</h2>
+
+    <table>
+        <tr>
+            <td>URL</td>
+            <td>&rarr;</td>
+            <td><code>/v1/users</code></td>
+        </tr>
+        <tr>
+            <td>Media type</td>
+            <td>&rarr;</td>
+            <td><code>application/vnd.user-v1+json</code></td>
+        </tr>
+    </table>
+
+</section>
+
+<section>
+    <section>
+        <h2>JSON Format</h2>
+
+<pre><code>{
+    "user":{
+        "id":1,
+        "username":"rickard",
+        "name":"Rickard Andersson",
+        "cell":"073-5083445",
+        "email":"rickard@montania.se",
+        "locked":false,
+        "loginCount":15,
+        "roles":[1],
+        "recipients":[],
+        "created":"2014-01-23T14:13:12+0100",
+        "updated":"2014-01-23T14:14:25+0100"
+    }
+}</code></pre>
+
+    </section>
+    <section>
+        <h2>JSON Format</h2>
+<pre><code>{
+    "user":{
+        "id":1,
+        "username":"rickard",
+        "name":"Rickard Andersson",
+        "cell":"073-5083445",
+        "email":"rickard@montania.se",
+        "locked":false,
+        "loginCount":15,
+        "roles":[1],
+        "recipients":[],
+        "created":"2014-01-23T14:13:12+0100",
+        "updated":"2014-01-23T14:14:25+0100"
+    },
+    "roles": [
+        {
+            "id": 1,
+            "created": "-0001-11-30T00:00:00+0100",
+            "name": "Administratör",
+            "role": "ROLE_ADMIN"
+        }
+    ]
+}</code></pre>
+    </section>
+    <section>
+        <h2>JSON API</h2>
+        <small>(ID style)</small>
+
+<pre><code>{
+    "posts": [{
+        "id": "1",
+        "title": "Rails is Omakase",
+        "links": {
+            "author": "9",
+            "comments": [ "5", "12", "17", "20" ]
+        }
+    }]
+}</code></pre>
+        <a href="http://jsonapi.org/">http://jsonapi.org/</a>
+    </section>
+    <section>
+        <h2>JSON API</h2>
+        <small>(URL style)</small>
+
+<pre><code>{
+    "posts": [{
+        "id": "1",
+        "title": "Rails is Omakase",
+        "links": {
+            "author": "http://example.com/people/9",
+            "comments": "http://example.com/comments/5,12,17,20"
+        }
+    }]
+}</code></pre>
+        <a href="http://jsonapi.org/">http://jsonapi.org/</a>
+    </section>
+
+</section>
+<section>
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>HTTP statuskoder</small></p>
+
+        <ul class="unstyled">
+            <li><code>400 Bad Request</code></li>
+            <li><code>401 Unauthorized</code></li>
+            <li><code>403 Forbidden</code></li>
+            <li><code>404 Not Found</code></li>
+            <li><code>409 Conflict</code></li>
+            <li><code>422 Unprocessable Entity</code></li>
+        </ul>
+    </section>
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>Status + meddelande</small></p>
+<pre><code>{
+    "status": 409,
+    "message": "Conflict"
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>Felhantering</h2>
+        <p><small>Valideringsfel</small></p>
+
+<pre><code>{
+    "status": 422,
+    "message": "Unprocessable Entity",
+    "errors": {
+        "username": [
+            "Detta fält får inte vara tomt"
+        ],
+        "email": [
+            "Detta fält får inte vara tomt"
+        ]
+    }
+}</code></pre>
+    </section>
+</section>
+
+<section>
+    <h2>Säkerhet/autentisering</h2>
+
+    <ul class="unstyled">
+        <li>a) Session</li>
+        <li>b) Stateless (API nycklar)</li>
+        <li>&nbsp;</li>
+        <li>OAuth, 1.0a?</li>
+        <li>SSL</li>
+    </ul>
+
+</section>
+
+<section>
+    <h2>HATEOAS</h2>
+    <p>Hypermedia as the Engine of Application State</p>
+</section>
+<section>
+    <h2>Tips och tricks</h2>
+
+    <ol>
+        <li>Postman</li>
+        <li class="fragment">SPDY</li>
+        <li class="fragment">Optimera</li>
+        <li class="fragment">Pragmatism</li>
+        <li class="fragment">API fältnamn != DB fältnamn</li>
+        <li class="fragment">RPC går oftast att översätta</li>
+        <li class="fragment">Komprimering av ids</li>
+        <li class="fragment">JMS Serializer</li>
+        <li class="fragment">FOS REST Bundle</li>
+    </ol>
+
+</section>
+<section>
+    <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="http://www.montania.se">www.montania.se</a>
+
+</section>
+
+</div>
+<footer>
+    <section>
+        REST API:er best practices
+    </section>
+    <section>
+        @rickard2
+    </section>
+    <section>
+        http://rickard2.github.io/REST-API/
+    </section>
+</footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        { src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        } }
+    ]
+});</script>
+</body>
+</html>
