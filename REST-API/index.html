@@ -26,7 +26,8 @@
 <section>
     <h2>REST API:er best practices</h2>
 
-    <p>Webb helt enkelt #6, 2014-01-30</p>
+    <p class="nope">Webb helt enkelt #6, 2014-01-30</p>
+    <p>Webb helt enkelt #7, 2014-04-10</p>
 </section>
 
 <section>
@@ -108,10 +109,6 @@ Server:Apache/2.2.24 (Unix) mod_fastcgi/2.4.2 mod_ssl/2.2.24 OpenSSL/0.9.8y
             <td>URL (alt. media type)</td>
         </tr>
     </table>
-    <!--
-    <pre class="fragment">GET /api/v1/users?name=john
-Accept: application/json</pre>
-    <pre class="fragment">GET /api/v1/users.json?name=john</pre> -->
 </section>
 
 <section>
@@ -287,7 +284,6 @@ Accept: application/json</pre>
         </table>
     </section>
 </section>
-
 <section>
     <h2>Version</h2>
 
@@ -311,7 +307,7 @@ Accept: application/json</pre>
         <h2>JSON Format</h2>
 
 <pre><code>{
-    "user":{
+    "user": {
         "id":1,
         "username":"rickard",
         "name":"Rickard Andersson",
@@ -330,7 +326,7 @@ Accept: application/json</pre>
     <section>
         <h2>JSON Format</h2>
 <pre><code>{
-    "user":{
+    "user": {
         "id":1,
         "username":"rickard",
         "name":"Rickard Andersson",
@@ -346,7 +342,7 @@ Accept: application/json</pre>
     "roles": [
         {
             "id": 1,
-            "created": "-0001-11-30T00:00:00+0100",
+            "created": "2014-01-23T14:13:12+0100",
             "name": "Administratör",
             "role": "ROLE_ADMIN"
         }
@@ -397,6 +393,7 @@ Accept: application/json</pre>
             <li><code>401 Unauthorized</code></li>
             <li><code>403 Forbidden</code></li>
             <li><code>404 Not Found</code></li>
+            <li><code>405 Method Not Allowed</code></li>
             <li><code>409 Conflict</code></li>
             <li><code>422 Unprocessable Entity</code></li>
         </ul>
@@ -430,19 +427,6 @@ Accept: application/json</pre>
 </section>
 
 <section>
-    <h2>Säkerhet/autentisering</h2>
-
-    <ul class="unstyled">
-        <li>a) Session</li>
-        <li>b) Stateless (API nycklar)</li>
-        <li>&nbsp;</li>
-        <li>OAuth, 1.0a?</li>
-        <li>SSL</li>
-    </ul>
-
-</section>
-
-<section>
     <h2>HATEOAS</h2>
     <p>Hypermedia as the Engine of Application State</p>
 </section>
@@ -451,14 +435,15 @@ Accept: application/json</pre>
 
     <ol>
         <li>Postman</li>
-        <li class="fragment">SPDY</li>
+        <li class="fragment ctrlz">SPDY</li>
         <li class="fragment">Optimera</li>
-        <li class="fragment">Pragmatism</li>
-        <li class="fragment">API fältnamn != DB fältnamn</li>
+        <li class="fragment">Var pragmatisk</li>
         <li class="fragment">RPC går oftast att översätta</li>
-        <li class="fragment">Komprimering av ids</li>
+        <li class="fragment">API fältnamn != DB fältnamn</li>
+        <li class="fragment">Komprimering av ids (undvik <code>414</code>)</li>
         <li class="fragment">JMS Serializer</li>
         <li class="fragment">FOS REST Bundle</li>
+        <li class="fragment">Symfony Validator</li>
     </ol>
 
 </section>

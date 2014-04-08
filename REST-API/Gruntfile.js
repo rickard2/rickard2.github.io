@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
             concat: {
                 dist: {
-                    src: ['template/header.html', 'slides/*', 'template/footer.html'],
+                    src: ['template/header.html', 'slides/*.html', 'template/footer.html'],
                     dest: 'index.html'
                 }
             },
