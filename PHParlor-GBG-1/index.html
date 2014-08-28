@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>PHParlor GBG #1</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/simple.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .reveal pre code {
+            max-height: 550px;
+        }
+
+        p, ul, h2, h3 {
+            margin: 0.5em 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Encryption and stuffs</h2>
+
+            <p>PHParlor GBG #1, 2014-08-28</p>
+        </section>
+
+        <section>
+            <h2>Disclaimer</h2>
+            <ul>
+                <li>IT-security is fun</li>
+                <li>IT-security is hard</li>
+                <li>Don't take my advice!</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Case:</h2>
+            <h3>Statistics for Sweden's national test</h3>
+            <em>(nationella provet)</em>
+        </section>
+        
+        <section>
+            <h2>Simple system</h2>
+            <ul>
+                <li>Teachers enter students grades</li>
+                <li>Creators of the test gets statistics</li>
+            </ul>
+
+            <p class="fragment">For ease of use: <em>Teachers can enter students name</em></p>
+
+            <h3 class="fragment">Requirement:</h3>
+
+            <ul class="fragment">
+                <li>Username and password only</li>
+                <li>Password reset needs to work</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>First version</h2>
+
+            <ul>
+                <li>Have to meet deadline</li>
+                <li>What can we do in a short period of time?</li>
+            </ul>
+
+            <h3 class="fragment">Solution:</h3>
+
+            <ul class="fragment">
+                <li>Two tables which needed encryption</li>
+                <li>Straight AES with static key per table</li>
+                <li>Wipe keys as soon as teachers are finished</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Pros</h2>
+
+            <ol>
+                <li>We delivered in time</li>
+                <li>We can't directly see names</li>
+                <li>An attacker needs disk access for keys</li>
+                <li>No extra work for the user (teacher)</li>
+            </ol>
+
+            <h2 class="fragment">Cons</h2>
+
+            <ol class="fragment">
+                <li>Doesn't really provide anonymity</li>
+                <li>Teacher information was not encrypted</li>
+                <li>Same key for every user</li>
+                <li>?? Probably lot's more</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>Second version</h2>
+
+            <ul>
+                <li>The basic code is in place</li>
+                <li>How can we improve this?</li>
+                <li>Without adding any complexity for the user</li>
+            </ul>
+
+            <h3 class="fragment">"Good enough" solution:</h3>
+
+            <ul class="fragment">
+                <li>Treat username (email) as a secret<br/><small><em>(pass through PBKDF2 before storing)</em></small></li>
+                <li>Use real username as part of AES key w/ static keys</li>
+                <li>Store real username in memcache during the session</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <h2>Pros</h2>
+
+            <ol>
+                <li>Resetting password still works!</li>
+                <li>Username / email is hashed before storage</li>
+                <li>After signing out (or restarting memcache) keys are gone</li>
+                <li>(still) No extra work for the user</li>
+            </ol>
+
+            <h2 class="fragment">Cons</h2>
+
+            <ol class="fragment">
+                <li>During a session, user and key is known</li>
+                <li>Hard to find users to give them support</li>
+                <li>Still not really anonymous?</li>
+            </ol>
+        </section>
+
+        <section>
+<pre><code>// Event listener
+public function prePersist(LifecycleEventArgs $eventArgs)
+{
+    $entity = $eventArgs->getEntity();
+
+    if ($entity instanceof EncryptedEntity) {
+        $this->encryption->encrypt($entity);
+    }
+}</code></pre>
+<pre><code>// Encryption service
+public function encrypt(EncryptedEntity $entity)
+{
+    $fields = $entity->getSecureFields();
+
+    foreach ($fields as $field) {
+        if (!$entity->isSecure($field)) {
+            // ...
+        }
+    }
+}</code></pre>
+<pre><code>// Encrypted entity
+public function setName($name)
+{
+    $this->name = $name;
+    $this->setInsecure('name');
+
+    return $this;
+}</code></pre>
+
+        </section>
+
+        <section>
+            <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="http://www.montania.se">www.montania.se</a>
+
+        </section>
+
+    </div>
+    <footer>
+        <section>
+            Encryption and stuffs
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/PHParlor-GBG-1/
+        </section>
+    </footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        { src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        } }
+    ]
+});</script>
+</body>
+</html>
