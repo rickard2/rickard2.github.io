@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP7</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/night.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .reveal pre code {
+            max-height: 550px;
+        }
+
+        p, ul, h2, h3 {
+            margin: 0.5em 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>PHP7</h2>
+
+            <p>PHP Göteborg, first meetup, 2015-05-27</p>
+        </section>
+
+        <section>
+            <h2>Outline</h2>
+            <ol>
+                <li>What's with the name? Where did PHP6 go?</li>
+                <li>Main features
+
+                    <ol>
+                        <li><a href="https://wiki.php.net/rfc/performanceimprovements">Performance</a></li>
+                        <li><a href="https://wiki.php.net/rfc/return_types">Return Type Declarations</a></li>
+                        <li><a href="https://wiki.php.net/rfc/scalar_type_hints_v5">Scalar type hints</a></li>
+                        <li><a href="https://wiki.php.net/rfc/anonymous_classes">Anonymous classes</a></li>
+                        <li><a href="https://wiki.php.net/rfc/engine_exceptions_for_php7">Engine exceptions</a></li>
+                    </ol>
+                </li>
+
+                <li>Other features
+
+                    <ol>
+                        <li><a href="https://wiki.php.net/rfc/combined-comparison-operator">Spaceships</a></li>
+                        <li><a href="https://wiki.php.net/rfc/isset_ternary">Null Coalesce Operator</a></li>
+                        <li><a href="https://wiki.php.net/rfc/uniform_variable_syntax"><s>Uniform Variable Syntax</s></a> ?</li>
+                        <li><a href="https://wiki.php.net/rfc/closure_apply">Closure::call</a></li>
+                    </ol>
+                </li>
+
+                <li>Meta
+
+                    <ol>
+                        <li>php7 vs hack</li>
+                        <li>backwards compatibility</li>
+                        <li><a href="https://wiki.php.net/rfc/php7timeline">timeline</a> (good luck)</li>
+                        <li><s>try it out today! (not yet)</s></li>
+                    </ol>
+                </li>
+            </ol>
+
+        </section>
+
+        <section>
+            <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="http://www.montania.se">www.montania.se</a>
+        </section>
+
+    </div>
+    <footer>
+        <section>
+            PHP7
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/PHP7/
+        </section>
+    </footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        {
+            src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        }
+        }
+    ]
+});</script>
+</body>
+</html>
