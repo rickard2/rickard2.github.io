@@ -2,7 +2,7 @@
 <html lang="sv_se">
 <head>
     <meta charset="UTF-8">
-    <title>PHP7</title>
+    <title>PHP 7</title>
     <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
     <link rel="stylesheet" href="../components/reveal.js/css/theme/night.css"/>
     <link rel="stylesheet" href="../style/style.css"/>
@@ -16,8 +16,16 @@
             margin: auto;
         }
 
+        .reveal pre {
+            width: 100%;
+        }
+
         .reveal pre code {
+            padding: 1em;
+            margin: 1em 0;
             max-height: 550px;
+            font-size: 1.4em;
+            line-height: 1.25em;
         }
 
         p, ul, h2, h3 {
@@ -29,49 +37,301 @@
 <div class="reveal">
     <div class="slides">
         <section>
-            <h2>PHP7</h2>
+            <h2>PHP 7</h2>
 
             <p>PHP Göteborg, first meetup, 2015-05-27</p>
+            <p>Rickard Bennison</p>
+        </section>
+
+        <!--
+        1. intro
+        2. lätta features
+        3. return types / scalar
+        4. varför 3. ?
+        5. backwards compat
+        6. timeline
+        -->
+
+        <!-- name -->
+        <section>
+            <h2>What's with the name? </h2>
+            <h3>Where did PHP 6 go?</h3>
+
+            <!--
+            started in 2005 and abandoned in 2010 due to difficulties in the Unicode implementation
+            Apart from language-integrated Unicode support, most features added for that version were integrated either in PHP 5.3 or PHP 5.4.
+            Version 6 is generally associated with failure in the world of dynamic languages.
+            PHP 6 was a failure;
+            Perl 6 was a failure.
+            MySQL 6 also existed but never released.
+            7 is perceived as a lucky number in both the Western world and Chinese culture.
+            -->
         </section>
 
         <section>
-            <h2>Outline</h2>
-            <ol>
-                <li>What's with the name? Where did PHP6 go?</li>
-                <li>Main features
+            <h2>New features</h2>
+        </section>
 
-                    <ol>
-                        <li><a href="https://wiki.php.net/rfc/performanceimprovements">Performance</a></li>
-                        <li><a href="https://wiki.php.net/rfc/return_types">Return Type Declarations</a></li>
-                        <li><a href="https://wiki.php.net/rfc/scalar_type_hints_v5">Scalar type hints</a></li>
-                        <li><a href="https://wiki.php.net/rfc/anonymous_classes">Anonymous classes</a></li>
-                        <li><a href="https://wiki.php.net/rfc/engine_exceptions_for_php7">Engine exceptions</a></li>
-                    </ol>
-                </li>
+        <!-- spaceships -->
+        <section>
+            <h2><=></h2>
+            <h3>Combined Comparison Operator (Spaceship)</h3>
 
-                <li>Other features
+<pre><code class="php">echo 1 <=> 1; // 0
+echo 1 <=> 2; // -1
+echo 2 <=> 1; // 1</code></pre>
 
-                    <ol>
-                        <li><a href="https://wiki.php.net/rfc/combined-comparison-operator">Spaceships</a></li>
-                        <li><a href="https://wiki.php.net/rfc/isset_ternary">Null Coalesce Operator</a></li>
-                        <li><a href="https://wiki.php.net/rfc/uniform_variable_syntax"><s>Uniform Variable Syntax</s></a> ?</li>
-                        <li><a href="https://wiki.php.net/rfc/closure_apply">Closure::call</a></li>
-                    </ol>
-                </li>
+            <!--
+            for sorting and stuff
 
-                <li>Meta
-
-                    <ol>
-                        <li>php7 vs hack</li>
-                        <li>backwards compatibility</li>
-                        <li><a href="https://wiki.php.net/rfc/php7timeline">timeline</a> (good luck)</li>
-                        <li><s>try it out today! (not yet)</s></li>
-                    </ol>
-                </li>
-            </ol>
+            -->
 
         </section>
 
+        <!-- null coalesce operator -->
+        <section>
+            <h2>Null coalesce operator</h2>
+
+            <pre><code class="php">$username = $_GET['user'] ?? 'nobody';</code></pre>
+
+            <div class="fragment">
+                equivalent to:
+
+                <pre><code class="php">$username = isset($_GET['user']) ? $_GET['user'] : 'nobody';</code></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Grouped use statements</h2>
+
+            <pre><code class="php">use FooLibrary\Bar\Baz\{ ClassA, ClassB, ClassC, ClassD as Fizbo };</code></pre>
+
+            <div class="fragment">
+                compared to:
+            <pre><code class="php">
+use FooLibrary\Bar\Baz\ClassA;
+use FooLibrary\Bar\Baz\ClassB;
+use FooLibrary\Bar\Baz\ClassC;
+use FooLibrary\Bar\Baz\ClassD as Fizbo;
+            </code></pre>
+            </div>
+        </section>
+
+        <!-- engine exceptions -->
+        <section>
+            <section>
+                <h2>Engine exceptions</h2>
+
+                PHP 5.x
+
+<pre><code class="php">function call_method($obj) {
+    $obj->method();
+}
+
+call_method(null);
+
+// Fatal error: Call to a member function method() on a non-object</code></pre>
+
+            </section>
+
+            <section>
+                <h2>Engine exceptions</h2>
+
+                PHP 7
+<pre><code class="php">try {
+    call_method(null); // oops!
+} catch (EngineException $e) {
+    echo "Exception: {$e->getMessage()}\n";
+}
+
+// Exception: Call to a member function method() on a non-object</code></pre>
+
+            </section>
+
+        </section>
+
+        <!-- anonymous classes -->
+        <section>
+            <h2>Anonymous classes</h2>
+
+<pre><code class="php">$pusher->setLogger(new class {
+    public function log($msg) {
+        print_r($msg . "\n");
+    }
+});</code></pre>
+
+            <!--
+            useful for mocking / debugging
+            -->
+        </section>
+
+        <!-- closure call -->
+        <section>
+            <h2>Closure::call</h2>
+
+<pre><code class="php">class Foo { private $x = 3; }
+$foo = new Foo;
+
+$foobar = function () { var_dump($this->x); };
+$foobar->call($foo); // prints int(3)
+</code></pre>
+
+            <div class="fragment">
+                equivalent to:
+
+<pre><code class="php">
+$bound = $foobar->bindTo($foo, $foo);
+$bound(); // prints int(3)
+</code></pre>
+            </div>
+        </section>
+
+        <!-- performance -->
+        <section>
+            <section>
+                <h2>Performance</h2>
+
+                <figure>
+                    <img src="perf.svg" width="70%" alt="Performance comparison" title="Performance comparison"/>
+                    <figcaption>
+                        <small>
+                            <p><em>Requests per second</em></p>
+                            <p>Source: <a href="https://pages.zend.com/ty-infographic.html">Zend infographic</a></p>
+                        </small>
+                    </figcaption>
+                </figure>
+
+                <!--
+                Biggest reason for upgrading (probably)
+
+                Their effort resulted in a new updated codebase that is nearly 100% compatible and provides anywhere between 20% and 110% performance gains in real world applications such as Wordpress, Drupal or SugarCRM. It also significantly reduces memory consumption.
+                -- https://wiki.php.net/rfc/phpng
+
+                Provides speed comparable with HHVM-3.3.0 (oct 2014)
+                -- https://drive.google.com/file/d/0B3UKOMH_4lgBUTdjUGxIZ3l1Ukk/view
+
+                https://wiki.php.net/rfc/phpng
+                https://wiki.php.net/phpng
+                https://wiki.php.net/phpng-int
+                -->
+            </section>
+            <section>
+                <h2>Performance</h2>
+
+                <p>Reduced memory consumption</p>
+                <p>Redured memory management overhead</p>
+                <p class="fragment">Researched JIT compilation</p>
+                <p class="fragment">Extensions need to be updated to support phpng</p>
+
+
+            </section>
+        </section>
+
+        <!-- scalar type hints -->
+        <section>
+            <section>
+                <h2>Scalar type hints</h2>
+
+                <code class="php">int</code>, <code class="php">float</code>, <code class="php">string</code> and <code class="php">bool</code> can now be typehinted
+            </section>
+
+            <section>
+                <h2>Scalar type hints</h2>
+
+                By default non-strict, can be declared strict per file.
+
+<pre><code class="php">&lt?php
+
+function add(float $a, float $b): float {
+    return $a + $b;
+}
+
+add("1", "2"); // float(3)</code></pre>
+            </section>
+
+            <section>
+                <h2>Scalar type hints</h2>
+
+                By default non-strict, can be declared strict per file.
+
+<pre><code class="php">&lt?php
+
+declare(strict_types=1);
+
+function add(float $a, float $b): float {
+    return $a + $b;
+}
+
+add("1", "2");
+
+// Catchable fatal error: Argument 1 passed to add() must be of the type integer
+</code></pre>
+
+                <!--
+                which makes all function calls and return statements within a file have “strict” type-checking for scalar type declarations, including for extension and built-in PHP functions.
+                -->
+
+        </section>
+        </section>
+
+        <!-- return type declarations -->
+        <section>
+            <h2>Return type declarations</h2>
+
+<pre><code class="php">function foo(): array {
+    return [];
+}</code></pre>
+
+            <!--
+            Same syntax as hack
+            The same rules that apply to type-hints apply to returned type hints for strict mode.
+            Only required when implementing interfaces that require return types
+            Cannot return null. Nullable types has been discussed https://wiki.php.net/rfc/nullable_types
+             Not able to declare multiple return types, array|bool
+            -->
+        </section>
+
+        <!-- vs hack -->
+        <section>
+            <h2>vs. Hack</h2>
+
+            <p>Comparable performance</p>
+            <p>Some similar features</p>
+            <p>Much smaller step/change</p>
+
+            <h4>(don't know much about Hack, sorry!)</h4>
+        </section>
+
+        <!-- backwards compat -->
+        <section>
+            <h2>Backwards Compatibility</h2>
+
+            <p class="fragment">"Uniform Variable Syntax"</p>
+            <p class="fragment">All deprecated functionality removed</p>
+            <ul class="fragment unstyled">
+                <li>ext/ereg (deprecated in 5.3)</li>
+                <li>ext/mysql (deprecated in 5.5)</li>
+                <li>PHP4 constructors</li>
+                <li>...and more</li>
+            </ul>
+        </section>
+
+        <!-- timeline -->
+        <section>
+            <h2>Timeline</h2>
+
+            <p>First release candidate (RC) appearing in mid June.</p>
+            <p>Scheduled release Mid October 2015</p>
+        </section>
+
+        <!-- tryout -->
+        <section>
+            <h2>Try PHP 7 today</h2>
+
+            <a href="https://github.com/rlerdorf/php7dev">https://github.com/rlerdorf/php7dev</a>
+        </section>
+
+        <!-- kthx -->
         <section>
             <h2>@rickard2</h2>
             <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
@@ -81,7 +341,7 @@
     </div>
     <footer>
         <section>
-            PHP7
+            PHP 7
         </section>
         <section>
             @rickard2
