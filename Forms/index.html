@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Tips & Tricks</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/night.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .reveal pre {
+            width: 100%;
+        }
+
+        .reveal pre code {
+            padding: 1em;
+            margin: 1em 0;
+            max-height: 550px;
+            font-size: 1.4em;
+            line-height: 1.25em;
+        }
+
+        p, ul, h2, h3 {
+            margin: 0.5em 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Simplifying form handling</h2>
+
+            <p>PHP Göteborg, second meetup, 2015-09-30</p>
+            <p>Rickard Bennison</p>
+        </section>
+
+        <section>
+            <h2>Sorry!</h2>
+            <h3>No speakers found :(</h3>
+        </section>
+
+        <section>
+            <h2>Form handling</h2>
+            <h3>With three simple objects</h3>
+
+            <ul>
+                <li><code>FormType</code> - contains form fields</li>
+                <li><code>FormData</code> - stores form data</li>
+                <li><code>FormHandler</code> - handles form submission</li>
+            </ul>
+
+        </section>
+
+        <section>
+            <p>Inspired from November Camp talk</p>
+            <blockquote>"Decoupling the Model from the Framework"</blockquote>
+            <a href="https://joind.in/12537">joind.in/12537</a>
+        </section>
+
+        <section>
+            <h2>Key separations of concerns</h2>
+            <p class="fragment">Only <code>FormHandler</code> knows about the model</p>
+            <p class="fragment"><code>FormType</code> and <code>FormData</code> reflects the user interface, not the model</p>
+        </section>
+
+        <section>
+            <h2>Case: Booking Laserdome</h2>
+        </section>
+
+        <section>
+            <img src="1.png" alt="">
+        </section>
+
+        <section>
+            <img src="2.png" alt="">
+        </section>
+
+        <section>
+            <img src="3.png" alt="">
+        </section>
+
+        <section>
+            <h2>FormType</h2>
+            <pre><code class="php">class LaserdomeType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('persons', 'number', ['required' => true]);
+        $builder->add('complete', 'checkbox', ['required' => false]);
+        $builder->add('date', 'date', ['required'    => true]);
+        $builder->add('name', 'text', ['required' => true]);
+        $builder->add('email', 'email', ['required' => true]);
+        $builder->add('phone', 'text', ['required' => true]);
+        $builder->add('comment', 'text', ['required' => false]);
+        $builder->add('termsAccepted', 'checkbox', ['required' => true]);
+    }
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>FormData</h2>
+
+            <pre><code class="php">class LaserdomeData
+{
+    protected $persons;
+    protected $complete;
+    protected $date;
+    protected $name;
+    protected $email;
+    protected $phone;
+    protected $comment;
+    protected $termsAccepted;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    // ...
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>FormHandler</h2>
+            <pre><code class="php">class LaserdomeHandler
+{
+    public function handle(FormInterface $form)
+    {
+        $data  = $form->getData();
+        $order = new OrderData();
+        $count = $data->getPersons();
+        $meta  = ['type' => 'standard', 'persons' => $count, 'complete' => $data->isComplete()];
+        $order->setMeta($meta);
+
+        foreach ($data->getTimes() as $time) {
+            // Create one booking per time and person
+        }
+
+        return $order;
+    }
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>Controller</h2>
+            <pre><code class="php">class BookingController extends Controller
+{
+    public function indexAction($resourceType, $type)
+    {
+        $form    = $this->getForm($resourceType, $type);
+        $request = $this->get('request');
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $handler = $this->getHandler($resourceType, $type);
+            $order   = $handler->handle($form);
+
+            // Success
+        }
+    }
+}</code></pre>
+        </section>
+
+        <!-- kthx -->
+        <section>
+            <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="http://www.montania.se">www.montania.se</a>
+        </section>
+
+    </div>
+    <footer>
+        <section>
+            Code Tips & Tricks
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/Forms/
+        </section>
+    </footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        {
+            src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        }
+        }
+    ]
+});</script>
+</body>
+</html>
