@@ -1,0 +1,107 @@
+<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 450 300" style="overflow: hidden; position: relative;"
+     xmlns="http://www.w3.org/2000/svg" width="100%" version="1.1" height="100%">
+    <path stroke-dasharray="2.4,1.7999999999999998" stroke-width="0.6"
+          d="M170.24,255L170.24,255M244.625,255L244.625,255M319.01,255L319.01,255M393.395,255L393.395,255"
+          stroke="#8c8c8c" fill="none" style=""></path>
+    <path stroke-dasharray="2.4,1.7999999999999998" stroke-width="0.6"
+          d="M436.5,211.1L51.75,211.1M436.5,166.7L51.75,166.7M436.5,122.29999999999998L51.75,122.29999999999998M436.5,77.89999999999998L51.75,77.89999999999998M436.5,33.49999999999998L51.75,33.49999999999998"
+          stroke="#8c8c8c" fill="none" style=""></path>
+    <rect transform="matrix(1,0,0,1,100.9357,0)" style="" stroke="#e4e4e4" fill="#f2f2f2" ry="0" rx="0" r="0"
+          height="17.52081728298996" width="66.17857027371261" y="282.48872399844373" x="132.1999614791759"></rect>
+    <rect transform="matrix(1,0,0,1,100.9357,0)" style="" stroke="#e4e4e4" fill="#f2f2f2" ry="0" rx="0" r="0"
+          height="17.52081728298996" width="77.02081728298995" y="282.48872399844373" x="49.75"></rect>
+    <desc>Created with Raphaël 2.1.2</desc>
+    <defs></defs>
+    <rect transform="matrix(1,0,0,1,100.9357,0)" style="" stroke="none" fill="#0000ff" ry="1" rx="1" r="1"
+          height="13.520817282989961" width="13.520817282989961" y="284.48872399844373" x="51.75"></rect>
+    <text transform="matrix(1,0,0,1,100.9357,0)" font-family="Arial" font-size="13px" fill="#808284" stroke="none"
+          font="10px &quot;Arial&quot;" text-anchor="start" y="291.48872399844373" x="70.27081728298995"
+          style="text-anchor: start; font: 13px Arial;">
+        <tspan dy="4.411738162414679">PHP 5.6</tspan>
+    </text>
+    <rect transform="matrix(1,0,0,1,100.9357,0)" style="" stroke="none" fill="#ff0000" ry="1" rx="1" r="1"
+          height="13.520817282989961" width="13.520817282989961" y="284.48872399844373" x="134.1999614791759"></rect>
+    <text transform="matrix(1,0,0,1,100.9357,0)" font-family="Arial" font-size="13px" fill="#808284" stroke="none"
+          font="10px &quot;Arial&quot;" text-anchor="start" y="291.48872399844373" x="152.72077876216585"
+          style="text-anchor: start; font: 13px Arial;">
+        <tspan dy="4.411738162414679">PHP 7</tspan>
+    </text>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#0000ff" ry="0" rx="0" r="0" height="111"
+          width="21.546" y="144" x="64.575"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#ff0000" ry="0" rx="0" r="0"
+          height="219.33599999999998" width="21.546" y="35.664000000000016" x="95.355"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#0000ff" ry="0" rx="0" r="0"
+          height="42.624" width="21.546" y="212.376" x="138.96"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#ff0000" ry="0" rx="0" r="0"
+          height="89.244" width="21.546" y="165.756" x="169.74"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#0000ff" ry="0" rx="0" r="0"
+          height="80.80799999999999" width="21.546" y="174.192" x="213.34500000000003"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#ff0000" ry="0" rx="0" r="0"
+          height="142.08" width="21.546" y="112.91999999999999" x="244.12500000000003"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#0000ff" ry="0" rx="0" r="0"
+          height="14.208" width="21.546" y="240.792" x="287.73"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#ff0000" ry="0" rx="0" r="0"
+          height="24.42" width="21.546" y="230.57999999999998" x="318.51"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#0000ff" ry="0" rx="0" r="0"
+          height="84.804" width="21.546" y="170.196" x="362.115"></rect>
+    <rect opacity="1" stroke-width="1" style="opacity: 1;" stroke="none" fill="#ff0000" ry="0" rx="0" r="0"
+          height="166.5" width="21.546" y="88.5" x="392.895"></rect>
+    <path stroke-dasharray="4,3" d="M436.5,255.5L51.75,255.5" stroke="#8c8c8c" fill="none" style=""></path>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="255" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.2139081954956055">0</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="210.6" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.213902091979975">100</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="166.2" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.213911247253407">200</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="121.79999999999998" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.213897514343245">300</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="77.39999999999998" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.213902854919411">400</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="end" y="33" x="45.75" style="text-anchor: end; font: 15px Arial;">
+        <tspan dy="5.21390438079834">500</tspan>
+    </text>
+    <path d="M0,0" stroke="#000000" fill="none" style=""></path>
+    <path stroke-dasharray="4,3" d="M95.855,255L95.855,255" stroke="#8c8c8c" fill="none" style=""></path>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="middle" y="268.57165767847437" x="105.355" style="text-anchor: middle; font: 15px Arial;">
+        <tspan dy="5.213910600532472">ZF2</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="middle" y="268.57165767847437" x="179.74" style="text-anchor: middle; font: 15px Arial;">
+        <tspan dy="5.213910600532472">WP 3</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="middle" y="268.57165767847437" x="254.125" style="text-anchor: middle; font: 15px Arial;">
+        <tspan dy="5.213910600532472">Drupal 7</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="middle" y="268.57165767847437" x="328.51" style="text-anchor: middle; font: 15px Arial;">
+        <tspan dy="5.213910600532472">Drupal 8</tspan>
+    </text>
+    <text font-family="Arial" font-size="15px" fill="#808284" stroke="none" font="10px &quot;Arial&quot;"
+          text-anchor="middle" y="268.57165767847437" x="392.895" style="text-anchor: middle; font: 15px Arial;">
+        <tspan dy="5.213910600532472">WP 4</tspan>
+    </text>
+    <path d="M0,0" stroke="#000000" fill="none" style=""></path>
+    <text font-family="Arial" font-size="16px" opacity="1" font-weight="regular" fill="#808284" stroke="none"
+          font="10px &quot;Arial&quot;" text-anchor="middle" y="276.90372399844375" x="221.625"
+          style="text-anchor: middle; font: 16px Arial; opacity: 1;">
+        <tspan dy="276.90372399844375"></tspan>
+    </text>
+    <text transform="matrix(0,-1,1,0,0,0)" font-family="Arial" font-size="16px" opacity="1" font-weight="regular"
+          fill="#808284" stroke="none" font="10px &quot;Arial&quot;" text-anchor="middle" y="144" x="-8.87870473803169"
+          style="text-anchor: middle; font: 16px Arial; opacity: 1;">
+        <tspan dy="144"></tspan>
+    </text>
+</svg>
