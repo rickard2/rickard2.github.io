@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP 7</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/night.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .reveal pre {
+            width: 100%;
+        }
+
+        .reveal pre code {
+            padding: 1em;
+            margin: 1em 0;
+            max-height: 550px;
+            font-size: 1.4em;
+            line-height: 1.25em;
+        }
+
+        p, ul, h2, h3 {
+            margin: 0.5em 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>PHP 7</h2>
+            <p>Webb helt enkelt #13, 2016-03-02</p>
+            <p>Rickard Bennison</p>
+        </section>
+
+        <!--
+        1. intro
+        2. lätta features
+        3. return types / scalar
+        4. varför 3. ?
+        5. backwards compat
+        6. timeline
+        -->
+
+        <!-- name -->
+        <section>
+            <h2>What's with the name? </h2>
+            <h3>Where did PHP 6 go?</h3>
+
+            <!--
+            started in 2005 and abandoned in 2010 due to difficulties in the Unicode implementation
+            Apart from language-integrated Unicode support, most features added for that version were integrated either in PHP 5.3 or PHP 5.4.
+            Version 6 is generally associated with failure in the world of dynamic languages.
+            PHP 6 was a failure;
+            Perl 6 was a failure.
+            MySQL 6 also existed but never released.
+            7 is perceived as a lucky number in both the Western world and Chinese culture.
+            -->
+        </section>
+
+        <section>
+            <h2>New features</h2>
+        </section>
+
+        <!-- spaceships -->
+        <section>
+            <h2><=></h2>
+            <h3>Combined Comparison Operator (Spaceship)</h3>
+
+<pre><code class="php">echo 1 <=> 1; // 0
+echo 1 <=> 2; // -1
+echo 2 <=> 1; // 1</code></pre>
+
+            <!--
+            for sorting and stuff
+
+            -->
+
+        </section>
+
+        <!-- null coalescing operator -->
+        <section>
+            <h2>Null coalescing operator</h2>
+
+            <pre><code class="php">$username = $_GET['user'] ?? 'nobody';</code></pre>
+
+            <div class="fragment">
+                equivalent to:
+
+                <pre><code class="php">$username = isset($_GET['user']) ? $_GET['user'] : 'nobody';</code></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Grouped use statements</h2>
+
+            <pre><code class="php">use FooLibrary\Bar\Baz\{ ClassA, ClassB, ClassC, ClassD as Fizbo };</code></pre>
+
+            <div class="fragment">
+                compared to:
+            <pre><code class="php">
+use FooLibrary\Bar\Baz\ClassA;
+use FooLibrary\Bar\Baz\ClassB;
+use FooLibrary\Bar\Baz\ClassC;
+use FooLibrary\Bar\Baz\ClassD as Fizbo;
+            </code></pre>
+            </div>
+        </section>
+
+        <!-- engine exceptions -->
+        <section>
+            <section>
+                <h2>Engine exceptions</h2>
+
+                PHP 5.x
+
+<pre><code class="php">function call_method($obj) {
+    $obj->method();
+}
+
+call_method(null);
+
+// Fatal error: Call to a member function method() on a non-object</code></pre>
+
+            </section>
+
+            <section>
+                <h2>Engine exceptions</h2>
+
+                PHP 7
+<pre><code class="php">try {
+    call_method(null); // oops!
+} catch (EngineException $e) {
+    echo "Exception: {$e->getMessage()}\n";
+}
+
+// Exception: Call to a member function method() on a non-object</code></pre>
+
+            </section>
+
+        </section>
+
+        <!-- anonymous classes -->
+        <section>
+            <h2>Anonymous classes</h2>
+
+<pre><code class="php">$pusher->setLogger(new class {
+    public function log($msg) {
+        print_r($msg . "\n");
+    }
+});</code></pre>
+
+            <!--
+            useful for mocking / debugging
+            -->
+        </section>
+
+        <!-- closure call -->
+        <section>
+            <h2>Closure::call</h2>
+
+<pre><code class="php">class Foo { private $x = 3; }
+$foo = new Foo;
+
+$foobar = function () { var_dump($this->x); };
+$foobar->call($foo); // prints int(3)
+</code></pre>
+
+            <div class="fragment">
+                equivalent to:
+
+<pre><code class="php">
+$bound = $foobar->bindTo($foo, $foo);
+$bound(); // prints int(3)
+</code></pre>
+            </div>
+        </section>
+
+        <section>
+            <h2>Expectations</h2>
+
+<pre><code class="php">switch ($type) {
+    case "foo": …
+    case "bar": …
+    default:
+        assert(false, 'Unknown type ' . $type);
+}</code></pre>
+
+            <div class="fragment">
+<pre><code># zero cost for production
+zend.assertions = -1 </code></pre>
+            </div>
+
+        </section>
+
+        <section>
+            <h2>Session handling improvements</h2>
+<pre><code class="php">session_start([
+    'read_and_close' => true, // Read and then close the session lock
+]);</code></pre>
+
+<pre class="fragment"><code class="php"># Only write when session data changes
+session.lazy_write = 1 </code></pre>
+
+        </section>
+
+        <section>
+            <h2>CSPRNG Functions</h2>
+
+<pre><code class="php">string random_bytes ( int $length )
+
+int random_int ( int $min , int $max )</code></pre>
+        </section>
+
+        <!-- performance -->
+        <section>
+            <section>
+                <h2>Performance</h2>
+
+                <figure>
+                    <img src="perf.svg" width="70%" alt="Performance comparison" title="Performance comparison"/>
+                    <figcaption>
+                        <small>
+                            <p><em>Requests per second</em></p>
+                            <p>Source: <a href="https://pages.zend.com/ty-infographic.html">Zend infographic</a></p>
+                        </small>
+                    </figcaption>
+                </figure>
+
+                <!--
+                Biggest reason for upgrading (probably)
+
+                Their effort resulted in a new updated codebase that is nearly 100% compatible and provides anywhere
+                between 20% and 110% performance gains in real world applications such as Wordpress, Drupal or SugarCRM.
+                It also significantly reduces memory consumption.
+                -- https://wiki.php.net/rfc/phpng
+
+                Provides speed comparable with HHVM-3.3.0 (oct 2014)
+                -- https://drive.google.com/file/d/0B3UKOMH_4lgBUTdjUGxIZ3l1Ukk/view
+
+                https://wiki.php.net/rfc/phpng
+                https://wiki.php.net/phpng
+                https://wiki.php.net/phpng-int
+                -->
+            </section>
+            <section>
+                <h2>Performance</h2>
+
+                <p>Reduced memory consumption</p>
+                <p>Redured memory management overhead</p>
+                <p class="fragment">Researched JIT compilation</p>
+                <p class="fragment">Extensions need to be updated to support phpng</p>
+
+
+            </section>
+        </section>
+
+        <!-- scalar type hints -->
+        <section>
+            <section>
+                <h2>Scalar type hints</h2>
+
+                <code class="php">int</code>, <code class="php">float</code>, <code class="php">string</code> and <code class="php">bool</code> can now be typehinted
+            </section>
+
+            <section>
+                <h2>Scalar type hints</h2>
+
+                By default non-strict, can be declared strict per file.
+
+<pre><code class="php">&lt?php
+
+function add(float $a, float $b): float {
+    return $a + $b;
+}
+
+add("1", "2"); // float(3)</code></pre>
+            </section>
+
+            <section>
+                <h2>Scalar type declarations</h2>
+
+                By default non-strict, can be declared strict per file.
+
+<pre><code class="php">&lt?php
+
+declare(strict_types=1);
+
+function add(float $a, float $b): float {
+    return $a + $b;
+}
+
+add("1", "2");
+
+// Catchable fatal error: Argument 1 passed to add() must be of the type integer
+</code></pre>
+
+<!--
+which makes all function calls and return statements within a file have “strict” type-checking for scalar type declarations, including for extension and built-in PHP functions.
+-->
+
+        </section>
+        </section>
+
+        <!-- return type declarations -->
+        <section>
+            <h2>Return type declarations</h2>
+
+<pre><code class="php">function foo(): array {
+    return [];
+}</code></pre>
+
+            <!--
+            Same syntax as hack
+            The same rules that apply to type-hints apply to returned type hints for strict mode.
+            Only required when implementing interfaces that require return types
+            Cannot return null. Nullable types has been discussed https://wiki.php.net/rfc/nullable_types
+             Not able to declare multiple return types, array|bool
+            -->
+        </section>
+
+        <section>
+            <h2>Complete list</h2>
+            <ul>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.define-array">
+                        Constant arrays using <code>define()</code>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.unicode-codepoint-escape-syntax">
+                        Unicode codepoint escape syntax
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.filtered-unserialize">
+                        Filtered <code>unserialize()</code>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.intlchar">
+                        <code>IntlChar</code>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.generator-return-expressions">
+                        Generator Return Expressions
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.generator-delegation">
+                        Generator delegation
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.intdiv">
+                        Integer division with <code>intdiv()</code>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.preg-repace-callback-array-function">
+                        <code>preg_replace_callback_array()</code>
+                    </a>
+                </li>
+                <li>
+                    <a href="http://se1.php.net/manual/en/migration70.new-features.php#migration70.new-features.list-arrayaccess">
+                        <code>list()</code> can always unpack objects implementing <code>ArrayAccess</code>
+                    </a>
+                </li>
+            </ul>
+
+
+        </section>
+
+        <!-- backwards compat -->
+        <section>
+            <section>
+                <h2>Backwards Compatibility</h2>
+
+                <p class="fragment">"Uniform Variable Syntax"</p>
+                <p class="fragment">All deprecated functionality removed</p>
+                <p class="fragment">Some errors changed to Exceptions</p>
+                <p class="fragment">E_STRICT removed and moved to other levels</p>
+                <p class="fragment"><code>list()</code> with strings is unsupported</p>
+                <p class="fragment">Division by zero returns <code>INF</code>/<code>NAN</code> instead of <code>false</code></p>
+                <p class="fragment">Scalar names can no longer be used as class names</p>
+                <p class="fragment"><code>foreach</code> is now less quirky</p>
+            </section>
+
+            <section>
+                <h2>Backwards Compatibility</h2>
+                <h3>- the WTF list</h3>
+
+                <p class="fragment">Strings containing hexadecimal numbers are no longer considered to be numeric</p>
+                <p class="fragment">Calls from incompatible context removed</p>
+                <p class="fragment">Functions cannot have multiple parameters with the same name</p>
+                <p class="fragment">Switch statements cannot have multiple default blocks</p>
+                <pre class="fragment"><code class="php">&lt;script language="php"&gt;echo 'no longer works';&lt;/script&gt;</code></pre>
+            </section>
+        </section>
+
+        <!-- tryout -->
+        <section>
+            <h2>Try PHP 7 today</h2>
+            <a href="https://www.dotdeb.org/instructions/">https://www.dotdeb.org/instructions/</a>
+            <a href="https://github.com/rlerdorf/php7dev">https://github.com/rlerdorf/php7dev</a>
+        </section>
+
+        <section>
+            <section>
+                <h2>PHP 7.1 RFCs</h2>
+                <h3>implemented</h3>
+
+                <ul>
+                    <li><a href="https://wiki.php.net/rfc/openssl_aead">OpenSSL AEAD support</a></li>
+                    <li><a href="https://wiki.php.net/rfc/void_return_type">Void Return Type</a></li>
+                    <li><a href="https://wiki.php.net/rfc/class_const_visibility">Class constant visibility modifiers</a></li>
+                    <li><a href="https://wiki.php.net/rfc/curl_http2_push">Add HTTP/2 Server Push support to ext/curl</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2>PHP 7.1 RFCs</h2>
+                <h3>pending implementation</h3>
+
+                <ul>
+                    <li><a href="https://wiki.php.net/rfc/list_keys">Allow specifying keys in list()</a></li>
+                    <li><a href="https://wiki.php.net/rfc/remove_deprecated_functionality_in_php7">Remove deprecated functionality in PHP 7</a></li>
+                    <li><a href="https://wiki.php.net/rfc/apxs-loadmodule">APXS LoadModule</a></li>
+                    <li><a href="https://wiki.php.net/rfc/datetime_and_daylight_saving_time">DateTime and Daylight Saving Time Transitions</a></li>
+                    <li><a href="https://wiki.php.net/rfc/deprecate_mb_ereg_replace_eval_option">Deprecate mb_ereg_replace eval option</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2>PHP 7.1 RFCs</h2>
+                <h3>voting now</h3>
+                <ul>
+                    <li><a href="https://wiki.php.net/rfc/negative-string-offsets">Generalize support of negative string offsets</a></li>
+                </ul>
+            </section>
+            <section>
+                <h2><a href="https://wiki.php.net/rfc#under_discussion">Under discussion</a></h2>
+                <div style="max-height: 70vh; overflow: auto;">
+                    <ul>
+                        <li>Deprecations for PHP 7.1</li>
+                        <li>Traits with interfaces</li>
+                        <li>Class Friendship</li>
+                        <li>Trailing commas in list syntax</li>
+                        <li>Automatic SQL injection protection</li>
+                        <li>Introduce consistent function names</li>
+                        <li>Introduce Design by Contract</li>
+                        <li>Native Design by Contract support as annotation</li>
+                        <li>Native Design by Contract support as definition</li>
+                        <li>Secure serialization by authentication code</li>
+                        <li>Comparable</li>
+                        <li>Additional splat operator usage</li>
+                        <li>Make PHP open tag optional for better security</li>
+                        <li>Named Parameters</li>
+                        <li>Adopt Code of Conduct</li>
+                        <li>Warn about invalid strings in arithmetic</li>
+                        <li>Normalize token_get_all() output</li>
+                        <li>On-demand Name Mangling</li>
+                        <li>Add array_key_(first|last|index) functions</li>
+                        <li>Default Value in List Assignment Syntax</li>
+                        <li>Closure from callable function</li>
+                        <li>More precise float value handling</li>
+                        <li>Improved Error Callback Mechanism</li>
+                        <li>Introduce script only require/include</li>
+                        <li>Precise URL include control</li>
+                        <li>Deprecate INI set/get aliases</li>
+                        <li>GitHub Pull Requests Triage Team</li>
+                        <li>Change checkdnsrr() $type argument behavior</li>
+                        <li>Loosening heredoc/nowdoc scanner</li>
+                        <li>Binary String Comparison</li>
+                        <li>password_hash function behavior</li>
+                        <li>Use php_mt_rand() where php_rand() is used</li>
+                        <li>ReflectionParameter Typehint accessors</li>
+                        <li>Secure Session Options</li>
+                        <li>Unify crypto source INI setting</li>
+                        <li>Build OpenSSL module by default</li>
+                        <li>Module API introspection</li>
+                        <li>Add support for GMP floating point numbers</li>
+                        <li>Normalizing increment and decrement operators</li>
+                        <li>Precise Session Management</li>
+                        <li>Internal Serialize API</li>
+                        <li>unset(): return bool if the variable has existed</li>
+                        <li>Integrate voting polls in PHP.net</li>
+                        <li>Escaping RFC for PHP Core</li>
+                        <li>Add is_cacheable() stream-wrapper operation</li>
+                        <li>Add cyclic string replace to str_[i]replace() functions (Created 2015/01/05)</li>
+                        <li>Add generic class and method support (Created 2015/04/28)</li>
+                        <li>Add resource typehint (Created 2015/11/11)</li>
+                        <li>Add PHP Engine Identifier Constant (Created 2016/02/03)</li>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        <!-- kthx -->
+        <section>
+            <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="http://www.montania.se">www.montania.se</a><br>
+
+            <a href="https://phpse.stamplayapp.com/">https://phpse.stamplayapp.com/</a>
+        </section>
+
+    </div>
+    <footer>
+        <section>
+            PHP 7
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/PHP7-2016-2/
+        </section>
+    </footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        {
+            src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        }
+        }
+    ]
+});</script>
+</body>
+</html>
