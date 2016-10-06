@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="sv_se">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP 7</title>
+    <link rel="stylesheet" href="../components/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="../components/reveal.js/css/theme/night.css"/>
+    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.3/styles/default.min.css"/>
+    <style type="text/css">
+        table.wide {
+            width: 1000px;
+        }
+
+        table {
+            margin: auto;
+        }
+
+        .reveal pre {
+            width: 100%;
+        }
+
+        .reveal pre code {
+            padding: 1em;
+            margin: 1em 0;
+            max-height: 550px;
+            font-size: 1.4em;
+            line-height: 1.25em;
+        }
+
+        p, ul, h2, h3 {
+            margin: 0.5em 0 !important;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Community Update</h2>
+            <p>PHP Göteborg Meetup #5 - 2016-10-06</p>
+            <p>Rickard Bennison</p>
+        </section>
+
+        <section>
+            <h2>PHP 5.6</h2>
+            <p>Active support ends 31 Dec 2016 😱</p>
+            <p>Two more years of security patches</p>
+        </section>
+
+        <section>
+            <h2>Version 7.0</h2>
+            <p>Almost one year old! 🎉</p>
+            <p>One more year of active support</p>
+            <p>Two more years of security patches</p>
+        </section>
+
+        <section>
+            <section>
+                <h2>Version 7.1</h2>
+                <p>Release Candidate 3</p>
+                <p>To be released in November</p>
+            </section>
+
+            <section>
+                <h2>Nullable types</h2>
+                <pre><code class="php">function testReturn(): ?string
+{
+    return 'elePHPant';
+}
+
+function test(?string $name)
+{
+    var_dump($name);
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Void functions</h2>
+
+                <pre><code class="php">function swap(&$left, &$right) : void
+{
+    if ($left === $right) {
+        return;
+    }
+
+    $tmp = $left;
+    $left = $right;
+    $right = $tmp;
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Symmetric array destructuring</h2>
+
+                <pre><code class="php">$data = [[1, 'Tom'], [2, 'Fred']];
+
+// list() style
+list($id1, $name1) = $data[0];
+
+// [] style
+[$id1, $name1] = $data[0];
+
+// list() style
+foreach ($data as list($id, $name)) {
+    // logic here with $id and $name
+}
+
+// [] style
+foreach ($data as [$id, $name]) {
+    // logic here with $id and $name
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Class constant visibility</h2>
+
+                <pre><code class="php">class ConstDemo
+{
+    const PUBLIC_CONST_A = 1;
+    public const PUBLIC_CONST_B = 2;
+    protected const PROTECTED_CONST = 3;
+    private const PRIVATE_CONST = 4;
+}</code></pre>
+            </section>
+
+            <section>
+                <h2><code>iterable</code> pseudo-type</h2>
+
+                <pre><code class="php">function iterator(iterable $iter)
+{
+    foreach ($iter as $val) {
+        //
+    }
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Multi catch exception handling</h2>
+
+                <pre><code class="php">try {
+    // some code
+} catch (FirstException | SecondException $e) {
+    // handle first and second exceptions
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>Support for keys in <code>list()</code></h2>
+
+                <pre><code class="php">$data = ["id" => 1, "name" => 'Tom'];
+
+// list() style
+list("id" => $id, "name" => $name) = $data;
+
+// [] style
+["id" => $id, "name" => $name] = $data;</code></pre>
+            </section>
+
+            <section>
+                <h2>Support for negative string offsets</h2>
+
+                <pre><code class="php">var_dump("abcdef"[-2]);
+var_dump(strpos("aabbcc", "b", -3));</code></pre>
+            </section>
+
+            <section>
+                <h2>👍</h2>
+
+                <ul>
+                    <li>Support for AEAD in <code>ext/openssl</code></li>
+                    <li>Convert callables to Closures with <code>Closure::fromCallable()</code></li>
+                    <li>Asynchronous signal handling</li>
+                    <li>HTTP/2 server push support in <code>ext/curl</code></li>
+                </ul>
+            </section>
+<!--
+            <section>
+                <h2>Backward incompatible changes</h2>
+
+                <ul>
+                    <li>Throw on passing too few function arguments</li>
+                    <li>Forbid dynamic calls to scope introspection functions</li>
+                    <li>Invalid class, interface, and trait names</li>
+                    <li>Numerical string conversions now respect scientific notation</li>
+                    <li>Fixes to mt_rand() algorithm</li>
+                    <li>rand() aliased to mt_rand() and srand() aliased to mt_srand()</li>
+                    <li>Disallow the ASCII delete control character in identifiers</li>
+                    <li>error_log changes with syslog value</li>
+                    <li>Do not call destructors on incomplete objects</li>
+                    <li>call_user_func() handling of reference arguments</li>
+                    <li>The empty index operator is not supported for strings anymore</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Deprecated features</h2>
+
+                <ul>
+                    <li>ext/mcrypt</li>
+                    <li>Eval option for mb_ereg_replace() and mb_eregi_replace()</li>
+                </ul>
+            </section>
+            -->
+        </section>
+
+        <!-- kthx -->
+        <section>
+            <h2>@rickard2</h2>
+            <a href="https://about.me/rickard2">https://about.me/rickard2</a><br/>
+            <a href="https://www.montania.se">www.montania.se</a><br>
+
+            <a href="https://phpse.stamplayapp.com/">https://phpse.stamplayapp.com/</a>
+        </section>
+
+    </div>
+    <footer>
+        <section>
+            Community Update
+        </section>
+        <section>
+            @rickard2
+        </section>
+        <section>
+            http://rickard2.github.io/Community-Update-2016-10-06/
+        </section>
+    </footer>
+</div>
+<script src="../components/reveal.js/lib/js/head.min.js"></script>
+<script src="../components/reveal.js/js/reveal.js"></script>
+<script>Reveal.initialize({
+    transition: 'linear',
+    controls: false,
+    history: true,
+    dependencies: [
+        {
+            src: '../components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+            hljs.initHighlightingOnLoad();
+        }
+        }
+    ]
+});</script>
+</body>
+</html>
